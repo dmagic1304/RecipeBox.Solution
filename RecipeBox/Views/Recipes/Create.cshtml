@@ -1,0 +1,33 @@
+@{
+  Layout = "_Layout";
+}
+
+@model RecipeBox.Models.Recipe
+
+<h2>Add a new recipe!</h2>
+
+<h4>For Science: @ViewBag.userId</h4>
+
+<p>@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @style = "font-weight = 600;" })</p>
+<p>@Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger", @style = "font-weight = 600;" })</p>
+<p>@Html.ValidationMessageFor(model => model.Instructions, "", new { @class = "text-danger", @style = "font-weight = 600;" })</p>
+<p>@Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger", @style = "font-weight = 600;" })</p>
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Name)
+  @Html.TextBoxFor(model => model.Name)
+
+  @Html.LabelFor(model => model.Ingredients)
+  @Html.TextBoxFor(model => model.Ingredients)
+
+  @Html.LabelFor(model => model.Instructions)
+  @Html.TextBoxFor(model => model.Instructions)
+
+  @Html.LabelFor(model => model.Rating)
+  @Html.EditorFor(model => model.Rating)
+
+  <input type="submit" value="Add new recipe"/>
+}
+
+<p>@Html.ActionLink("Back Home", "Index", "Home")</p>

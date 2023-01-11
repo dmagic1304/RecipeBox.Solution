@@ -1,0 +1,71 @@
+@{
+  Layout = "_Layout";
+}
+
+@using RecipeBox.Models
+@model RecipeBox.Models.Recipe
+
+<h2>@Model.Name</h2>
+
+<h3>@Html.DisplayNameFor(model => model.Ingredients): @Html.DisplayFor(model => model.Ingredients)</h3>
+<!-- <h3>@Html.DisplayNameFor(model => model.Rating): @Html.DisplayFor(model => model.Rating)</h3> -->
+
+<h3>
+  @Html.DisplayNameFor(model => model.Rating): 
+  @for (int i = 0; i < Model.Rating; i++)
+  {
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+      </svg>
+  }
+</h3>
+
+<h3>@Model.Ingredients</h3>
+<!-- new code to display ingredients -->
+@{int counter = 0;}
+@for (int i = 0; i <= Model.Ingredients.Split(",").Length; i+=4)
+{
+  <div class="row">
+    @for (int j = 0; j < 4; j++)
+    {
+      if (counter < Model.Ingredients.Split(",").Length)
+      {
+        <div class=col-3>
+            @Model.Ingredients.Split(",")[counter]
+        </div>
+        counter++;
+      }
+      else
+      {
+        <div class=col-3></div>
+      }
+    }
+  </div>
+}
+
+
+<p>@Model.Instructions</p>
+
+@if (Model.JoinEntities.Count == 0)
+{
+  <p>This recipe does not have any tags</p>
+}
+else
+{
+  <h4>Tags for this recipe:</h4>
+  <ul>
+    @foreach (RecipeTag join in Model.JoinEntities)
+    {
+      <li>
+        @join.Tag.Diet
+      </li>
+      @using (Html.BeginForm("DeleteJoin", "Recipes"))
+      {
+        @Html.Hidden("joinId", join.RecipeTagId)
+        <input type="submit" value="Delete" />
+      }
+    }
+  </ul>
+}
+
+<p>@Html.ActionLink("Add a tag", "AddTag", new { id = Model.RecipeId})</p>

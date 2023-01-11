@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+
+@model RecipeBox.Models.Tag
+
+<h2>Add a new tag!</h2>
+
+<p>@Html.ValidationMessageFor(model => model.Diet, "", new { @class = "text-danger", @style = "font-weight = 600;" })</p>
+
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Diet)
+  @Html.TextBoxFor(model => model.Diet)
+
+  <input type="submit" value="Add new recipe"/>
+}
